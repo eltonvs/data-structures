@@ -6,14 +6,17 @@ BUILDDIR = build
 LIBDIR = lib
 # LIB OPTIONS
 # TARGET
-TARGET = $(BINDIR)/stack
+TARGET1 = $(BINDIR)/stackint
+TARGET2 = $(BINDIR)/stackar
 # EXTENSIONS
 SRCEXT = cpp
 HEADEREXT = hpp
 # SOURCES LIST
-SOURCES = $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
+SOURCES1 = $(shell find $(SRCDIR) -type f -name *int.$(SRCEXT))
+SOURCES2 = $(shell find $(SRCDIR) -type f -name *ar.$(SRCEXT))
 # OBJECTS
-OBJS = $(patsubst $(SRCDIR)/%, $(BUILDDIR)/%, $(SOURCES:.$(SRCEXT)=.o))
+OBJS1 = $(patsubst $(SRCDIR)/%, $(BUILDDIR)/%, $(SOURCES1:.$(SRCEXT)=.o))
+OBJS2 = $(patsubst $(SRCDIR)/%, $(BUILDDIR)/%, $(SOURCES2:.$(SRCEXT)=.o))
 # COMPILER
 CC = g++
 # FOR CLEANING
@@ -34,16 +37,30 @@ CFLAGS = $(DEBUG) -c $(WARN) -std=c++11
 # ENTRIES
 # ----------------------
 
-$(TARGET): $(OBJS)
+$(TARGET1): $(OBJS1)
 	@echo "Linking..."
-	@echo " $(CC) $^ -o $(TARGET) $(LFLAGS)"; $(CC) $^ -o $(TARGET) $(LFLAGS)
+	@echo " $(CC) $^ -o $(TARGET1) $(LFLAGS)"; $(CC) $^ -o $(TARGET1) $(LFLAGS)
+$(TARGET2): $(OBJS2)
+	@echo "Linking..."
+	@echo " $(CC) $^ -o $(TARGET2) $(LFLAGS)"; $(CC) $^ -o $(TARGET2) $(LFLAGS)
 $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 	@mkdir -p $(BUILDDIR)
 	@echo " $(CC) $(CFLAGS) $(INCFLAG) -o $@ $<"; $(CC) $(CFLAGS) $(INCFLAG) -o $@ $<
 
 # DUMMY ENTRIES
+all:
+	@echo "Error! Argument missing (int or ar)"
+
+int: $(TARGET1)
+	@echo "Using the stackint"
+
+ar: $(TARGET2)
+	@echo "Using the stackar"
+
 clean:
 	@echo "Cleaning..."
-	@echo " $(RM) -r $(OBJS) $(TARGET)"; $(RM) -r $(OBJS) $(TARGET)
+	@echo " $(RM) -r $(OBJS) $(TARGET1) $(TARGET2)"; $(RM) -r $(OBJS) $(TARGET1) $(TARGET2)
 
 .PHONY: clean
+.PHONY: all
+.DEFAULT_GOAL := all
