@@ -30,5 +30,9 @@ int main(int argc, char const *argv[]) {
     // Unity Test #6: isEmpty function
     assert(a.isEmpty() == true);
 
+    // Tests the dynamic allocation
+    for (int i = 0; i < 15; i++)
+        a.push(i);
+
     return EXIT_SUCCESS;
 }

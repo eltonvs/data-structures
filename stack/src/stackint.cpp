@@ -19,13 +19,13 @@ StackInt::~StackInt() {
 // Members
 void StackInt::push(const int &_x) {
     if (m_size >= m_capacity)
-        throw std::length_error("[top()]: The Stack is full!");
+        dblCapacity();
 
     m_stack[m_size++] = _x;
 }
 int StackInt::pop() {
     if (isEmpty())
-        throw std::length_error("[top()]: The Stack is empty!");
+        throw std::length_error("[pop()]: The Stack is empty!");
 
     return m_stack[--m_size];
 }
@@ -41,4 +41,18 @@ bool StackInt::isEmpty() const {
 }
 void StackInt::makeEmpty() {
     m_size = 0;
+}
+
+// dblCapacity
+void StackInt::dblCapacity() {
+    StackInt cpStack(m_capacity);
+
+    while (m_size > 0)
+        cpStack.push(pop());
+
+    m_capacity *= 2;
+    m_stack = new int[m_capacity];
+
+    while (cpStack.m_size > 0)
+        push(cpStack.pop());
 }

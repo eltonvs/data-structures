@@ -26,6 +26,7 @@ class StackInt : public AbsStack<int> {
     void makeEmpty();
 
  private:
+    void dblCapacity();
     int m_size     = 0;
     int m_capacity = 0;
     int *m_stack   = nullptr;
