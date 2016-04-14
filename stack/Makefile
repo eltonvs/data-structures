@@ -44,6 +44,6 @@ $(BUILDDIR)/%.o: $(SRCDIR)/%.$(SRCEXT)
 # DUMMY ENTRIES
 clean:
 	@echo "Cleaning..."
-	@echo " $(RM) -r $(BUILDDIR) $(TARGET)"; $(RM) -r $(BUILDDIR) $(TARGET)
+	@echo " $(RM) -r $(OBJS) $(TARGET)"; $(RM) -r $(OBJS) $(TARGET)
 
 .PHONY: clean
